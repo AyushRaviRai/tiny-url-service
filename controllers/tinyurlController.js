@@ -17,3 +17,15 @@ module.exports.createTinyUrl = function(request, response, next) {
         next(createError(error));
     });
 };
+
+module.exports.getLongUrl = function(request, response, next) {
+    if (request.query.code == undefined) {
+        throw new Error("Empty Short Code");
+    }
+
+    tinyurl.getLongUrl(request.query.code).then((url) => {
+        response.json(url);
+    }).catch((error) => {
+        next(createError(error))
+    });
+};
